@@ -1,52 +1,58 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+int main()
+{
 
-# Linker output
-*.ilk
-*.map
-*.exp
+    int numerosecreto;
+    int chute;
+    int acertou;
+    int maior;
+    int ganhou = 0;
+    int tentativas = 1;
+    float pontos = 1000;
+    float pontosperdidos;
+    int numerogrande = rand();
+    int segundos = time(0);
+    srand(segundos);
+    numerosecreto = numerogrande % 100;
 
-# Precompiled Headers
-*.gch
-*.pch
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+    while(ganhou == 0)
+    {
+        printf("Tentativa %d:\n", tentativas);
+        printf("Digite seu chute:\n");
+        scanf("%d", &chute);
+        if(chute < 0)
+        {
+            printf("Voce nao pode digitar numeros negativos!\n");
+            continue;
+        }
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+        acertou = (chute == numerosecreto);
+        maior = chute > numerosecreto;
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+        if(acertou)
+        {
+            printf("Parabens, Voce Acertou!\n");
+            printf("Jogue de novo, voce e um bom jogador!\n");
+            ganhou = 1;
+        }
+        else if(maior)
+        {
+            printf("Seu Chute foi maior que o numero secreto\n");
+        }
+        else
+        {
+            printf("Seu chute foi menor que o numero secreto\n");
+        }
+        tentativas++;
+        pontosperdidos = abs(chute - numerosecreto) / (float)2;
+        pontos = pontos - pontosperdidos;
+    }
+    printf("Fim de Jogo\n");
+    printf("Voce acertou em %d tentativas\n", tentativas - 1);
+    printf("Total de pontos %.1f\n", pontos);
+    return 0;
+}
